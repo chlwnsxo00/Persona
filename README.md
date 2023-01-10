@@ -47,9 +47,9 @@ RecyclerView을 사용하려면 몇 가지 작업을 수행해야 합니다.
   1.목록 또는 그리드의 모양을 결정합니다. 일반적으로 RecyclerView 라이브러리의 표준 레이아웃 관리자 중 하나를 사용할 수 있습니다.
 
   2.목록의 각 요소가 어떻게 보이고 작동하는지 디자인합니다. 이 디자인을 기반으로 ViewHolder클래스를 확장합니다. 
-    의 버전은 ViewHolder 목록 항목에 대한 모든 기능을 제공합니다. 뷰 홀더는 를 둘러싼 래퍼 View이며 해당 뷰는 에서 관리합니다 RecyclerView.
+    ViewHolder 버전은 목록 항목에 대한 모든 기능을 제공합니다. 뷰 홀더는 View를 둘러싼 래퍼 이며 해당 뷰는 RecyclerView에서 관리합니다 .
 
-  3.Adapter데이터를 보기와 연결하는 를 정의하십시오 ViewHolder.
+  3.Adapter데이터를 보기와 연결하는 ViewHolder를 정의하십시오 .
   
   
 
