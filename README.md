@@ -53,7 +53,9 @@ RecyclerView을 사용하려면 몇 가지 작업을 수행해야 합니다.
   
   # 2주차 - 안드로이드 UI제작 및 firebase를 통한 회원가입 및 로그인 기능 구현
   ![image](https://user-images.githubusercontent.com/31373739/212929050-2d162d8a-65c0-46b2-b6c2-c8cb4db109d8.png)
+  
   ![image](https://user-images.githubusercontent.com/31373739/212928929-65f0beb5-11b4-481a-84fb-5b0a15a33002.png)
+  
   위의 사진처럼 현재 앞으로 구현할 모집공고 확인, 캐스팅, 찜기능, 커뮤니티와 내 계정을 BottomNavigation을 통해 각각의 서비스 전환이 이루어 지게 할 것이다.
   먼저 5개의 기능 중 먼저 구현하고 있는 것이 firebase를 통해 회원가입 및 로그인 기능이다.
   그 이외에도 카카오톡이나 구글과 같은 대기업의 RestfulAPI를 이용해 간편 로그인 기능도 구현해 볼 생각이다.
