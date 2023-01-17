@@ -51,7 +51,23 @@ RecyclerView을 사용하려면 몇 가지 작업을 수행해야 합니다.
 
   3.Adapter데이터를 보기와 연결하는 ViewHolder를 정의하십시오 .
   
+  # 2주차 - 안드로이드 UI제작 및 firebase를 통한 회원가입 및 로그인 기능 구현
+  ![image](https://user-images.githubusercontent.com/31373739/212929050-2d162d8a-65c0-46b2-b6c2-c8cb4db109d8.png)
+  ![image](https://user-images.githubusercontent.com/31373739/212928929-65f0beb5-11b4-481a-84fb-5b0a15a33002.png)
+  위의 사진처럼 현재 앞으로 구현할 모집공고 확인, 캐스팅, 찜기능, 커뮤니티와 내 계정을 BottomNavigation을 통해 각각의 서비스 전환이 이루어 지게 할 것이다.
+  먼저 5개의 기능 중 먼저 구현하고 있는 것이 firebase를 통해 회원가입 및 로그인 기능이다.
+  그 이외에도 카카오톡이나 구글과 같은 대기업의 RestfulAPI를 이용해 간편 로그인 기능도 구현해 볼 생각이다.
   
+  이번주에 앱 제작을 하며 알게된 내용은 BottomNavigation에 사용되었던 Fragment 기능과 간편로그인 기능을 구현하며 배운 Restful API와 Server와 연동시키는 법 등이다.
+  그 중 Fragment에 대해 설명해 보겠다. 
+  
+  Fragment는 하나의 레이아웃에 종속된 레이아웃의 일부라고 해야할까?
+  BottomNavigation을 살펴보면 아래의 Navigation을 클릭한다고 해서 전체화면이 바뀌지 않는다.
+  BottomNavagation과 Toobar를 제외한 중간의 일부 레이아웃만이 변하게 된다.
+  이처럼 Fragment를 통해 레이아웃의 전체가 아닌 일부만 바뀌게 구현할 수 있다.
+  이를 사용하며 Activity와 Fragment에서의 구현 방식이 달라 이를 새로 배우며 구현하느라 힘들었다.
+  
+   후기 : 모각코를 통해 매 주 목표를 정하고 그만큼 구현을 해 나가고, 그 이후에 다음 주 계획을 설정하고 필요할 내용들을 공부하는 등 매주 시간을 생산성있게 보내는 것 같아 의미가 있다.
 
 
 
