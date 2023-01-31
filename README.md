@@ -76,7 +76,9 @@ RecyclerView을 사용하려면 몇 가지 작업을 수행해야 합니다.
  # 3주차 - 안드로이드 UI제작 및 firebase를 통한 회원가입 및 로그인 기능 구현
  
  나는 LoginFragment와 ProfileFragment를 각각 만든 후 LoginFragment에서 로그인 과정을 거친 후 성공하면 ProfileFragment로 넘어가고 이후에도 이후 BotttomNavigation에서 Fragment전환을 할때에도 LoginFragment가 아닌 ProfileFragment로 전환하도록 해 로그인 과정을 구현하려고 했다.
+ 
 하지만 KakaoLoginAPI를 통해 서버에서 Token을 받아와도 위의 과정을 구현하기에 기존의 ActivityManager에서의 방식과의 차이 등으로 어려움을 겪었다.
+
 ![image](https://user-images.githubusercontent.com/31373739/215776387-3282ada0-f1cc-4c66-a164-0b1bc375fb2e.png)
 
 그러나 다른 사람들은 어떻게 구현했는지 계속 조사했고, 이를 통해 한 Fragment에 Login화면과 Profile화면을 겹쳐서 구현하고
@@ -85,6 +87,7 @@ Profile화면은 visibility를 gone으로 해놓고 이후 성공했을때 Login
 그래서 현재 전에 하던 방식에서 이 방식을 채택해 구현해하려고 바꾸고 있는 중이다.
 
 (+)모각코의 목표 계획과는 상관 없지만 개인적으로 Android 개발에 대해 공부하며 DB를 사용하는 방식에 대해 배웠다. 
+
 Android에서는 DB를 활용하는 방법에는 크게 3가지가 있는데 첫번째가 외부 DB를 활용하는 것이고,
 두번째가 localDB를 활용하는 것,
 마지막이 앱속 file을 만들고 그 파일을 DB로 활용하는 방식이다.
@@ -104,7 +107,9 @@ Room은 데이터베이스 클래스, 데이터 항목, 데이터 엑세스 객�
 ![image](https://user-images.githubusercontent.com/31373739/215787850-41848a95-6580-42ea-9825-4b78070192cf.png)
 
 데이터베이스 클래스는 데이터베이스와 연결된 DAO 인스턴스를 앱에 제공합니다. 
+
 그러면 앱은 DAO를 사용하여 데이터베이스의 데이터를 연결된 데이터 항목 객체의 인스턴스로 검색할 수 있게 됩니다. 
+
 앱은 정의된 데이터 항목을 사용하여 상응하는 테이블의 행을 업데이트하거나 삽입할 새 행을 만들 수도 있습니다.
 
 (+)같이 모각코를 하는 학우의 발표를 듣고 Android를 개발하는 방식이 내가 하고 있는 방식이 아닌 jetpack compose방식도 있다는 것을 알게되었다.
