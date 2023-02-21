@@ -154,3 +154,51 @@ async는 새 코루틴을 시작하고 await라는 정지 함수로 결과를 �
 async는 다른 코루틴 내부에서만 사용하거나 정지 함수 내에서 병렬 분해를 실행할 때 사용합니다.
 
 후기 : 안드로이드 분야에서는 코루틴을 적절하게 잘 사용하는 것이 중요하다고 들었기에 심도깊게 공부해볼 생각입니다.
+
+# 5주차 - 크롤링 앱 개발 마무리
+
+![image](https://user-images.githubusercontent.com/31373739/220092508-642b6b9e-c74e-4b23-8765-0875bbc2a02c.png)
+
+<Jsoup을 활용해 웹사이트에서 크롤링한 후 정보들을 item형식으로 만들어서 Recyclerview로 표현한 에뮬레이터 사진>
+
+```c
+
+private fun crawlingstart(v: View) {    //크롤링하는 함수
+        Thread(Runnable {       //네트워크 작업을 할때는 반드시 비동기로 해야함 (아니면 NetworkException 오류뜸)
+            val itemList = ArrayList<Items>()
+            val doc = Jsoup.connect("https://www.filmmakers.co.kr/actorsAudition").get()
+            val elements : Elements = doc.select(".mobile-padding").select("#board-list")
+            // mobile-padding 클래스의 board-list의 id를 가진 것들을 elements 객체에 저장
+            /*
+            크롤링 하는 법 : class 는 .(class) 로 찾고 id 는 #(id) 로 검색
+             */
+            for(elements in elements){  //elements의 개수만큼 반복
+                val href = elements.select("a.block").attr("href")       // 해당 itemlist 클릭 시 팝업할 상세 페이지URL
+                val firstRow = elements.select(".block strong").text()      // 글 제목과 콘텐츠 종류
+                val time = elements.select("span.content.date").text()      // 글 업로드 시간
+                val secondRow = elements.select("td.mobile-nobold").text()      // 콘텐츠(제작, 작품제목, 배역, 모집 배우 성별)
+                itemList.add(Items(firstRow, time, secondRow,href))     //위에서 크롤링 한 내용들을 itemlist에 추가
+            }
+
+            menuActivity.runOnUiThread(kotlinx.coroutines.Runnable {        //itemlist에 추가한 내용들을 UI에 적용하기 위해 실행
+                v.findViewById<RecyclerView>(R.id.rv_item).layoutManager = LinearLayoutManager(menuActivity, LinearLayoutManager.VERTICAL, false)
+                v.findViewById<RecyclerView>(R.id.rv_item).adapter = itemAdapter(itemList)
+            })
+        }).start()
+    }
+
+```
+
+이번 주 모임 전까지 Jsoup을 활용해 크롤링을 해 RecyclerView에 표현하는 것뿐만 아니라 Recycler view의 itemlist를 클릭하면 상세 페이지를 연결시켜 줄 생각이었다.
+현재까지는 .apply를 통해 안에 itemlist의 onClickListener를 만들어 해당 아이템 리스트를 클릭하면 첫째줄과 둘째줄, 시간을 크롤링 할 때 상세 페이지 URL을 같이 크롤링해 intent를 통해 웹 페이지에 연결해 줄 생각이었다.
+
+하지만 itemadapter에서 .apply를 통해 startActivity가 실행되지 않아 어려움을 겪고 있다.
+
+모각소가 끝난 이후에도 캐스팅 부분또한 크롤링해보고 찜기능과 커뮤니티 기능을 만들어 출시를 해볼 생각이다.
+
+
+
+
+
+
+
