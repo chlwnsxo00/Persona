@@ -196,6 +196,240 @@ private fun crawlingstart(v: View) {    //크롤링하는 함수
 
 모각소가 끝난 이후에도 캐스팅 부분또한 크롤링해보고 찜기능과 커뮤니티 기능을 만들어 출시를 해볼 생각이다.
 
+# 마무리 정리
+
+이번 모각소를 통해 Android 개발에 대한 여러가지 기능에 대해 공부하고 웹 크롤링을 구현하고 표현하는 프로젝트를 진행했습니다.
+
+웹 크롤링 기능을 구현하면서 로그인 기능을 구현하는 것과 깃 허브에서 Jsoup을 이용해 배운 내용은 Firebase의 authentication 기능을 활용해 로그인과 회원가입 기능을 구현했습니다.
+
+위의 과정을 통해 gradle에 대해 알게되었고 외부 API를 사용하는 법에 대해 알게되었습니다.
+
+또한 카카오톡의 로그인 API를 이용해 간편 로그인 기능을 구현해 보았습니다.
+
+이를 통해 토큰 인증 방식에 대해 알게 되었습니다.
+
+![image](https://user-images.githubusercontent.com/31373739/220356997-b13cfa36-ed4c-4690-b7fd-725dad17c5bb.png)
+
+카카오 토큰 인증은 위와 같은 방식으로 진행되며, 이를 이해하고 카카오 developers 문서를 따라 각 기능을 구현하는 법을 배우고 적용해 구현에 성공했습니다.
+
+```
+package com.persona.persona.Activitys
+
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.kakao.auth.ISessionCallback
+import com.kakao.auth.Session
+import com.kakao.network.ErrorResult
+import com.kakao.usermgmt.UserManagement
+import com.kakao.usermgmt.callback.LogoutResponseCallback
+import com.kakao.usermgmt.callback.MeV2ResponseCallback
+import com.kakao.usermgmt.response.MeV2Response
+import com.kakao.util.OptionalBoolean
+import com.kakao.util.exception.KakaoException
+import com.persona.persona.R
+
+
+class LoginActivity : AppCompatActivity() {
+    private val callback = SessionCallback()
+    private lateinit var firebaseAuth : FirebaseAuth
+    private val loginButton : Button by lazy{
+        findViewById(R.id.loginBUtton)
+    }
+    private val makeAccount : Button by lazy{
+        findViewById(R.id.makeAccount)
+    }
+    private val kakaoLoginButton : com.kakao.usermgmt.LoginButton by lazy{
+        findViewById(R.id.kakao_login_button)
+    }
+
+    private val emailEditText : EditText by lazy{
+        findViewById(R.id.emailEditText)
+    }
+    private val passwordEditText : EditText by lazy{
+        findViewById(R.id.passwordEditText)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+
+        firebaseAuth = Firebase.auth
+        initLoginButton()   //firebase 로그인 버튼 init
+        initMakeAccountButton()     //firevase 회원가입 버튼 init
+        initKakaoLoginButton()      //카카오 간편로그인 버튼 init
+        Session.getCurrentSession().checkAndImplicitOpen()      //카카오 로그인 세션이 남아있다면 자동로그인
+    }
+    inner class SessionCallback : ISessionCallback {
+        override fun onSessionOpened() {
+            requestMe()
+        }
+
+        // 로그인에 실패한 상태
+        override fun onSessionOpenFailed(exception: KakaoException) {
+            Log.e("SessionCallback :: ", "onSessionOpenFailed : " + exception.message)
+        }
+
+        // 사용자 정보 요청
+        fun requestMe() {
+            UserManagement.getInstance().me(object : MeV2ResponseCallback() {
+                    override fun onSessionClosed(errorResult: ErrorResult) {
+                        Log.e("KAKAO_API", "세션이 닫혀 있음: $errorResult")
+                    }
+
+                    override fun onFailure(errorResult: ErrorResult) {
+                        Log.e("KAKAO_API", "사용자 정보 요청 실패: $errorResult")
+                    }
+
+                    override fun onSuccess(result: MeV2Response) {
+                        val intent : Intent = Intent(this@LoginActivity, MenuActivity::class.java)
+                        Log.i("KAKAO_API", "사용자 아이디: " + result.id)
+                        val kakaoAccount = result.kakaoAccount
+                        if (kakaoAccount != null) {
+                            // 이메일
+                            val email = kakaoAccount.email
+                            if (email != null) {
+                                Log.i("KAKAO_API", "email: $email")
+                                intent.putExtra("email",email) // 카카오에서 받아온 email정보를 menuActivity로 전달
+
+                            } else if (kakaoAccount.emailNeedsAgreement() == OptionalBoolean.TRUE) {
+                                // 동의 요청 후 이메일 획득 가능
+                                // 단, 선택 동의로 설정되어 있다면 서비스 이용 시나리오 상에서 반드시 필요한 경우에만 요청해야 합니다.
+                            } else {
+                                // 이메일 획득 불가
+                            }
+                            // 프로필
+                            val profile = kakaoAccount.profile
+                            if (profile != null) {
+                                Log.d("KAKAO_API", "nickname: " + profile.nickname)
+                                intent.putExtra("nickname",profile.nickname);
+                                Log.d("KAKAO_API", "profile image: " + profile.profileImageUrl)
+                                intent.putExtra("profileImageURL",profile.profileImageUrl)
+                            } else if (kakaoAccount.profileNeedsAgreement() == OptionalBoolean.TRUE) {
+                                // 동의 요청 후 프로필 정보 획득 가능
+                            } else {
+                                // 프로필 획득 불가
+                            }
+                        }
+                        startActivity(intent)   //로그인 성공 후 필요한 정보들을 다음 Activity로 전달 후 Activity 전환
+                        finish()
+                    }
+                })
+        }
+    }
+
+    private fun initKakaoLoginButton() {
+        kakaoLoginButton.setOnClickListener{
+            Session.getCurrentSession().addCallback(callback)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 세션 콜백 삭제
+        Session.getCurrentSession().removeCallback(callback)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int,  data: Intent?) {
+        // 카카오톡|스토리 간편로그인 실행 결과를 받아서 SDK로 전달
+        if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+            return
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+
+    private fun moveMainPage(user: FirebaseUser?){
+        if( user!= null){
+            startActivity(Intent(this, MenuActivity::class.java))
+            finish()
+        }
+    }
+    private fun initMakeAccountButton() {
+        makeAccount.setOnClickListener{
+            startActivity(Intent(this, SignupActivity::class.java))
+        }
+    }
+
+    private fun initLoginButton() {
+        loginButton.setOnClickListener{
+            signIn(getInputID(),getInputPassword())
+        }
+    }
+
+
+
+    private fun signIn(email: String, password: String) {
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(
+                            baseContext, "로그인에 성공 하였습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        moveMainPage(firebaseAuth.currentUser)
+                    } else {
+                        Toast.makeText(
+                            baseContext, "로그인에 실패 하였습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+        }
+    }
+        private fun getInputID() : String{
+            return emailEditText.text.toString()
+        }
+        private fun getInputPassword() : String{
+            return passwordEditText.text.toString()
+        }
+}
+```
+위의 엑티비티는 LoginActivity로 firebase와 kakaoLogin을 구현한 페이지입니다.
+
+또한 이후 bottomNavigation을 통해 크롤링한 정보를 보여주는 Fragment와 사용자 정보를 보여주는 Fragment와 이후 제작할 캐스팅 정보와 찜기능 그리고 커뮤니티 기능을 넣을 Fragment들을 만들었습니다.
+
+이를 통해 Fragment에 대해 알고, 이를 구현하면서 Fragment의 특징이나 구현하는 법에 대해 알게되었다.
+
+Fragment의 경우 Activity 내부에서 사용가능했던 메소드들을 사용할 수 없는 경우가 많다. 
+
+그 이유는 Fragment가 Context를 상속받지 않기 때문이다.
+
+```
+private val menuActivity: MenuActivity by lazy {
+        context as MenuActivity
+    }
+```
+
+이를 해결하기 위해 Context를 할당할 변수를 프로퍼티로 선언함으로서 해결했다.
+
+이후 크롤링 기능을 제작하며 github에서 오픈소스를 사용하는 법을 배우게 되었다.
+
+그리고 Jsoup을 통해 크롤링한 내용들을 표현하기 위해 RecyclerView를 이용했으며 이를 통해 RecyclerView의 작동방식이나 구현방법을 알게되었다.
+
+RecyclerView는 item들을 나열할 수 있는 viewGroup같은 view이다.
+
+이후 item의 xml을 만들고 이를 adapter에 연결하고 adapter를 recyclerview에 연결하며 viewHoler를 만들어 item들을 recyclerView에 스크롤 형식으로 볼수 있도록 한다.
+
+이렇게 RecyclerView과 item, itemAdapter를 만들고 크롤링을 한 내용을 RecyclerView로 확인하려고 하면서,
+
+크롤링같은 Network작업은 비동기를 필수로 한다는 것을 알게되었고, 이를 통해 비동기 종류나 사용방법에 대해 공부하는 계기가 되었다.
+
+비동기에는 Callback, rxKotlin, coroutine이 있다.
+
+순서대로 발전해왔다고 알고있다. 이 중 coroutine은 쓰레드 작업을 할 때 Blocking time이 없기 때문에 굉장히 가볍다는 것을 알게되었다.
+
+이번에 구현하면서 coroutine을 사용하며 공부하려했지만, coroutine이 무엇인가에 대해서는 많이 알게된 느낌이지만 사용법에서는 아직 헷갈리는 부분이 많다.
+
 
 
 
