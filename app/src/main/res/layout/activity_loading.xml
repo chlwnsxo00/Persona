@@ -2,32 +2,45 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ToolbarTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".MenuActivity">
+    tools:context="com.persona.persona.Activitys.MenuActivity">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        app:labelVisibilityMode="labeled"
         android:id="@+id/bottomNavigationView"
-        android:layout_width="411dp"
-        android:layout_height="61dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:background="#000"
         app:itemIconTint="@drawable/menu_selector_color"
         app:itemTextColor="@drawable/menu_selector_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/nav_menu" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:layout_width="409dp"
-        android:layout_height="668dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/top_nav_menu"
+        app:title="Persona"
+        app:titleTextAppearance="@style/ToolbarTheme"
+        app:titleTextColor="#9283D5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

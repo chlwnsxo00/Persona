@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Activitys.LoginActivity">
+
+    <TextView
+        android:id="@+id/personaTextView"
+        android:layout_width="211dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/bad_script"
+        android:text="Persona"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="38sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PersonaImageView" />
+
+    <ImageView
+        android:id="@+id/PersonaImageView"
+        android:layout_width="112dp"
+        android:layout_height="133dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="250dp"
+        android:src="@drawable/ic_baseline_play_arrow_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="120dp"
+        android:textColorHint="@color/purple_200"
+        android:hint="email"
+        android:backgroundTint = "@color/purple_200"
+        app:layout_constraintTop_toBottomOf="@id/personaTextView" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:textColorHint="@color/purple_200"
+        android:backgroundTint = "@color/purple_200"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="70dp"
+        android:hint="password"
+        app:layout_constraintTop_toBottomOf="@id/emailEditText" />
+
+    <Button
+        android:id="@+id/loginBUtton"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:layout_marginBottom="20dp"
+        android:text="로그인하기"
+        app:layout_constraintEnd_toStartOf="@id/makeAccount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
+
+    <Button
+        android:id="@+id/makeAccount"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:layout_marginBottom="20dp"
+        android:text="회원가입"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/loginBUtton"
+        app:layout_constraintTop_toTopOf="@id/loginBUtton" />
+
+    <com.kakao.usermgmt.LoginButton
+        android:id="@+id/kakao_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginBUtton" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.persona">
+    package="com.persona.persona">
+    <!-- 인터넷 사용 권한 설정 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:usesCleartextTraffic="true"
+        android:name=".Activitys.Persona"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,10 +18,16 @@
         android:theme="@style/Theme.Persona"
         tools:targetApi="31">
         <activity
-            android:name=".MenuActivity"
+            android:name=".Activitys.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activitys.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activitys.MenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activitys.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +35,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Kakao Redirect URI 설정 -->
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
+                <data
+                    android:host="oauth"
+                    android:scheme="@string/kakao_oauth_host" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_native_app_key" />
     </application>
 
 </manifest>

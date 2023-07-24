@@ -2,29 +2,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/home"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:enabled="true"
-        android:title="@string/home" />
-    <item
         android:id="@+id/information"
         android:icon="@drawable/ic_baseline_campaign_24"
         android:enabled="true"
-        android:title="@string/information" />
+        android:title="모집 공고"/>
     <item
-        android:id="@+id/upload"
-        android:icon="@drawable/ic_baseline_camera_roll_24"
+        android:id="@+id/casting"
+        android:icon="@drawable/ic_baseline_recent_actors_24"
         android:enabled="true"
-        android:title="@string/upload" >  </item>
+        android:title="캐스팅" />
+
     <item
-        android:id="@+id/popular"
-        android:icon="@drawable/ic_baseline_local_fire_department_24"
+        android:id="@+id/like"
+        android:icon="@drawable/ic_baseline_favorite_border_24"
         android:enabled="true"
-        android:title="@string/popular" >  </item>
+        android:title="찜" >  </item>
     <item
-        android:id="@+id/profile"
+        android:id="@+id/community"
+        android:icon="@drawable/ic_baseline_mode_comment_24"
+        android:enabled="true"
+        android:title="커뮤니티" >  </item>
+    <item
+        android:id="@+id/account"
         android:icon="@drawable/ic_baseline_account_circle_24"
         android:enabled="true"
-        android:title="@string/profile">
+        android:title="내 계정">
     </item>
 </menu>
